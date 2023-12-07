@@ -1,0 +1,6 @@
+implement unset and cd builtins
+replace_envvar not using the changed export variables
+put here_doc in child process and implement a better signal handler
+
+append new line after every readline in here_doc 
+put here_doc in child process and implement a better signal handler
