@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/27 13:35:08 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/07 11:42:10 by tsteur        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/27 13:35:08 by tsteur            #+#    #+#             */
+/*   Updated: 2023/12/09 18:47:00 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "signal_handler.h"
 #include "replace.h"
 
+
+
 int	execute_command(char *command, char ***envp)
 {
 	static int	last_ret = 0;
@@ -28,13 +30,13 @@ int	execute_command(char *command, char ***envp)
 	char		*replaced_command;
 
 	set_sighandler(sighandler_running);
-	if (parse_error(command))
-		return (ft_putendl_fd("Parse error",2 ), 1);
 	tmp = replace_envvar(command, last_ret, *envp);
 	replaced_command = replace_wildcard(tmp);
 	free(tmp);
 	clean_command = trim_command(replaced_command);
 	free(replaced_command);
+	if (parse_error(clean_command))
+		return (ft_putendl_fd("Parse error",2 ), 1);
 	if (clean_command)
 		last_ret = do_commands(clean_command, envp);
 	if (clean_command)

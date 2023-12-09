@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   export.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/05 13:23:08 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/06 16:13:58 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/05 13:23:08 by bschaafs          #+#    #+#             */
+/*   Updated: 2023/12/08 12:48:54 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**add_to_envp(char ***envp, char *new_entry)
 		len++;
 	new_envp = ft_calloc(len + 2, sizeof(char *));
 	if (!new_envp)
-		return (free_2d_array(envp, FREE_2D), NULL);
+		return (free_2d_array(envp, FREE_2D), NULL); // maybe not free envp
 	while (i < len)
 	{
 		new_envp[i] = (*envp)[i];

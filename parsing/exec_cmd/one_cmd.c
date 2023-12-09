@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:41:28 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/07 01:48:57 by bootjan          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:33:47 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	do_cmd(char *command, char ***envp)
 	if (fd_out > 2)
 		do_dup2(fd_out, STDOUT_FILENO);
 	path = compute_path(*envp, cmds[0]);
+	if (!path)
+		print_error_cmd(cmds[0]);
 	if (execve(path, cmds, *envp) == -1)
 		perror_exit("Execve error: ", STD_EXIT);
 }

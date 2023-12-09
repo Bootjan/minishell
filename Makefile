@@ -17,7 +17,8 @@ $(PARSE_ERROR)\
 $(REPLACE)\
 $(UTILS)\
 $(SIGNALS)\
-$(BUILTINS)
+$(BUILTINS)\
+print_error.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 NAME = minishell

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtins.h                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/04 14:15:09 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/07 14:04:42 by tsteur        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtins.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/04 14:15:09 by tsteur            #+#    #+#             */
+/*   Updated: 2023/12/09 18:47:49 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int		exit_b(int argc, char *argv[], char ***envp);
 int		unset(int argc, char *argv[], char ***envp);
 int		print_export(char **envp);
 char	*compute_without_quotes_export(char *command);
+int		is_right_format(char *str);
 
 #endif

@@ -6,16 +6,13 @@
 /*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 14:50:01 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/06 20:10:09 by bootjan          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:36:38 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <signal.h>
-
 #include "parsing.h"
 #include "signal_handler.h"
+#include "minishell.h"
 
 static char	*concat_strs(char *input, char *out)
 {
@@ -43,16 +40,17 @@ static char	*get_input(char *limiter)
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			if (g_last_signum == SIGINT)
-				g_last_signum = 0;
-			else
-				return (input); // maybe add warning
-		}
+			return (input); // maybe add warning
 		else
 		{
 			if (ft_strncmp(line, limiter, lim_len) == 0 && line[lim_len] == '\0')
 				return (free(line), input);
+			input = concat_strs(input, line);
+			if (!input)
+				perror_exit("Concat_strs failed:", STD_EXIT);
+			line = ft_strdup("\n");
+			if (!line)
+				perror_exit("ft_strdup failed:", STD_EXIT); // free input
 			input = concat_strs(input, line);
 			if (!input)
 				perror_exit("Concat_strs failed:", STD_EXIT);
@@ -87,9 +85,9 @@ static int	open_file_read(char *command, int *fd_in)
 	if (!file)
 		perror_exit("Malloc failed: ", STD_EXIT);
 	*fd_in = open(file, O_RDONLY);
-	free(file);
 	if (*fd_in == -1)
-		perror_exit("Failed to open file: ", STD_EXIT);
+		print_error_open(file);
+	free(file);
 	return (end);
 }
 
@@ -112,6 +110,5 @@ int	set_input(char *command, int *fd_in, char **here_doc)
 		i = do_here_doc(&(command[1]), here_doc);
 	else
 		i = open_file_read(&(command[0]), fd_in);
-	set_sighandler(sighandler_running);
 	return (i + 1);
 }

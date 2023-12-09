@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   pwd.c                                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/04 13:57:41 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/06 18:41:17 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/04 13:57:41 by tsteur            #+#    #+#             */
+/*   Updated: 2023/12/09 18:47:15 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <linux/limits.h>
+#include <limits.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>

@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   print_export.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/06 16:14:17 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/06 16:44:31 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   print_export.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/06 16:14:17 by bschaafs          #+#    #+#             */
+/*   Updated: 2023/12/09 18:48:23 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "minishell.h"
 
-char	**sort_envp(char **envp, int len)
+static void	swap_elements(char ***envp, int j)
+{
+	char	*temp;
+
+	temp = (*envp)[j];
+	(*envp)[j] = (*envp)[j + 1];
+	(*envp)[j + 1] = temp;
+}
+
+static char	**sort_envp(char **envp, int len)
 {
 	int		i;
 	int		j;
-	char	*temp;
 
-	i = len- 1;
-	while (i-- >= 0)
+	i = 0;
+	while (i < len - 1)
 	{
-		j = len - 1;
-		while (j > 0)
+		j = 0;
+		while (j < len - i - 1)
 		{
-			if (ft_strncmp(envp[j], envp[j - 1], ft_strlen(envp[j]) + 1) < 0)
-			{
-				temp = envp[j];
-				envp[j] = envp[j - 1];
-				envp[j - 1] = temp;
-			}
-			j--;
+			if (ft_strncmp(envp[j], envp[j + 1], ft_strlen(envp[j]) + 1) > 0)
+				swap_elements(&envp, j);
+			j++;
 		}
+		i++;
 	}
 	return (envp);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   exec_builtin.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/06 17:02:44 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/07 14:04:58 by tsteur        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/06 17:02:44 by bschaafs          #+#    #+#             */
+/*   Updated: 2023/12/09 19:59:29 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 int	is_builtin(char *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (ft_strncmp(cmd, EXPORT_STR, 7) == 0)
 		return (EXPORT_INT);
 	if (ft_strncmp(cmd, ECHO_STR, 5) == 0)
@@ -66,8 +68,8 @@ void	exec_builtin_child(char ***cmds, char ***envp, int builtin)
 	return_val = exec_builtin(*cmds, envp, builtin);
 	free_2d_array(cmds, FREE_2D);
 	if (return_val)
-		_exit(0);
-	perror_exit("Builtin error", STD_EXIT);
+		perror_exit("Builtin error", STD_EXIT);
+	_exit(0);
 }
 
 int	do_dup2_parent(int fd_in, int fd_out, int *new_in, int *new_out)

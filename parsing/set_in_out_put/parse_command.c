@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_command.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/28 15:35:11 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/04 19:28:26 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/28 15:35:11 by bschaafs          #+#    #+#             */
+/*   Updated: 2023/12/09 22:34:28 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ char	**parse_command(char *command, int *fd_in, int *fd_out)
 	write_here_doc_to_pipe(&here_doc, fd_in);
 	cmds_char = convert_cmds(&cmds);
 	if (!cmds_char)
-		perror_exit("No commands:", STD_EXIT);
+		perror_exit("No commands", STD_EXIT);
 	return (cmds_char);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/27 13:07:47 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/06 15:51:48 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/27 13:07:47 by bschaafs          #+#    #+#             */
+/*   Updated: 2023/12/09 22:30:30 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@
 int		minishell(char **envp);
 void	free_2d_array(char ***arr, int state);
 char	**copy_envp(char **envp);
+void	print_error_cmd(char *cmd);
+void	print_error_open(char *file);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:34:25 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/07 01:51:08 by bootjan          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:31:03 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	first_cmd(char *command, char **envp, t_pipes pipes)
 	if (builtin_int > 0)
 		exec_builtin_child(&cmds, &envp, builtin_int);
 	path = compute_path(envp, cmds[0]);
+	if (!path)
+		print_error_cmd(cmds[0]);
 	if (execve(path, cmds, envp) == -1)
 		perror_exit("Execve error: ", STD_EXIT);
 }

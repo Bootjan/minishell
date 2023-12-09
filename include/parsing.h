@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parsing.h                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/30 12:26:10 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/07 11:13:52 by tsteur        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/30 12:26:10 by bschaafs          #+#    #+#             */
+/*   Updated: 2023/12/09 17:28:12 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <signal.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
