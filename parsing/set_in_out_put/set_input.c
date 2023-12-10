@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 14:50:01 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/09 22:36:38 by bootjan          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:41:05 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*get_input(char *limiter)
 				perror_exit("Concat_strs failed:", STD_EXIT);
 			line = ft_strdup("\n");
 			if (!line)
-				perror_exit("ft_strdup failed:", STD_EXIT); // free input
+				perror_exit("ft_strdup failed:", STD_EXIT);
 			input = concat_strs(input, line);
 			if (!input)
 				perror_exit("Concat_strs failed:", STD_EXIT);

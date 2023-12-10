@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 17:02:44 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/09 19:59:29 by bootjan          ###   ########.fr       */
+/*   Updated: 2023/12/10 00:09:45 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	do_dup2_parent(int fd_in, int fd_out, int *new_in, int *new_out)
 		*new_out = dup(STDOUT_FILENO);
 		if (dup2(fd_out, STDOUT_FILENO) == fd_out)
 			return (dup2(*new_in, STDIN_FILENO), \
-				close(*new_in), close(fd_out), 1);
+				close(fd_out), 1);
+		close(fd_out);
 	}
 	return (0);
 }
@@ -99,12 +100,13 @@ void	reset_fds(int fd_in, int fd_out, int new_in, int new_out)
 	if (fd_in > 2)
 	{
 		dup2(new_in, STDIN_FILENO);
-		close(fd_in);
+		close(new_in);
 	}
 	if (fd_out > 2)
 	{
 		dup2(new_out, STDOUT_FILENO);
-		close(fd_out);
+		// close(fd_out);
+		close(new_out);
 	}
 }
 
@@ -123,6 +125,7 @@ int	exec_builtin_parent(char *command, char ***envp, int builtin)
 	if (do_dup2_parent(fd_in, fd_out, &new_in, &new_out) == 1)
 		return (free_2d_array(&cmds, FREE_2D), 1);
 	return_val = exec_builtin(cmds, envp, builtin);
+	// printf("fd_out: %i\nnew_out: %i\n", fd_out, new_out);
 	free_2d_array(&cmds, FREE_2D);
 	reset_fds(fd_in, fd_out, new_in, new_out);
 	return (return_val);
