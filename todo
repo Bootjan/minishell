@@ -1,7 +1,0 @@
-<$t cat
-rename compute_without_quotes_unset
-
-wildcards
-tokenize
-// splitten -> quotes niet splitten
-remove quotes
