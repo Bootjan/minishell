@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/07 11:10:25 by tsteur            #+#    #+#             */
-/*   Updated: 2023/12/08 14:22:21 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   unset.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/07 11:10:25 by tsteur        #+#    #+#                 */
+/*   Updated: 2023/12/15 17:28:18 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
 
-char	**func(char ***envp, int index)
+static char	**remove_from_envp(char ***envp, int index)
 {
 	int		len;
 	int		i;
@@ -39,18 +38,23 @@ char	**func(char ***envp, int index)
 	return (new_envp);
 }
 
-char	**func2(char ***envp, char *clean_av)
+static int	found_match(char *curr_envp, char *clean_av, int av_len)
+{
+	return (ft_strncmp(curr_envp, clean_av, av_len) == 0
+		&& curr_envp[av_len] == '=');
+}
+
+static char	**find_and_remove(char ***envp, char *argv)
 {
 	int	i;
 	int	av_len;
 
 	i = 0;
-	av_len = ft_strlen(clean_av);
+	av_len = ft_strlen(argv);
 	while ((*envp)[i])
 	{
-		if (ft_strncmp((*envp)[i], clean_av, av_len) == 0 && \
-		(*envp)[i][av_len] == '=')
-			return (func(envp, i));
+		if (found_match((*envp)[i], argv, av_len))
+			return (remove_from_envp(envp, i));
 		i++;
 	}
 	return (*envp);
@@ -58,16 +62,8 @@ char	**func2(char ***envp, char *clean_av)
 
 int	unset_var(char *argv, char ***envp)
 {
-	char	*clean_av;
-
-	if (unclosed_quotes(argv))
-		return (1);
-	clean_av = compute_without_quotes_export(argv);
-	if (!clean_av)
-		return (1);
-	if (is_right_format(clean_av))
-		*envp = func2(envp, clean_av);
-	free(clean_av);
+	if (is_right_format(argv))
+		*envp = find_and_remove(envp, argv);
 	if (!*envp)
 		return (1);
 	return (0);
@@ -77,7 +73,7 @@ int	unset(int argc, char *argv[], char ***envp)
 {
 	int	i;
 	int	ret;
-	
+
 	i = 1;
 	ret = 0;
 	if (argc == 1)

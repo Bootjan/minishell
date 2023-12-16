@@ -26,9 +26,9 @@ int	compute_result(const char *str, int i, int pos_neg)
 
 int	ft_atoi(const char *str)
 {
-	int		i;
-	int		pos_neg;
-	int		result;
+	int	i;
+	int	pos_neg;
+	int	result;
 
 	i = 0;
 	pos_neg = 1;

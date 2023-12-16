@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bschaafs <bschaafs@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 11:48:15 by bootjan           #+#    #+#             */
-/*   Updated: 2023/11/16 22:26:40 by bschaafs         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   libft.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bschaafs <bschaafs@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/07/13 11:48:15 by bootjan       #+#    #+#                 */
+/*   Updated: 2023/12/13 12:32:37 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 void			ft_bzero(void *s, size_t n);
 void			*ft_memalloc(size_t size);
@@ -44,7 +45,7 @@ size_t			ft_strlcat(char *dst, const char *src, size_t dstsize);
 char			*ft_strjoin(const char *s1, const char *s2);
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
 char			*ft_strchr(const char *s, int c);
-char			**ft_split(char const *s, char c);
+char			**ft_split(const char *str, char *set);
 void			ft_putstr_fd(const char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putendl_fd(char *s, int fd);
@@ -59,5 +60,6 @@ int				ft_get_max(int *arr, int len);
 int				ft_get_min(int *arr, int len);
 int				*ft_swap_list(int *arr, int x, int y);
 int				ft_ischar(char c);
+void			ft_free_str(char **str);
 
 #endif

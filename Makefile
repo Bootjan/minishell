@@ -1,35 +1,14 @@
-MAIN = main.c minishell.c
-EXEC = exec_cmd.c get_path.c prior_check.c process_utils.c \
-one_cmd.c first_cmd.c middle_cmd.c last_cmd.c one_cmd_utils.c exec_builtin.c
-SET_IO = linked_list.c parse_command.c set_input.c set_output.c compute_without_quotes.c
-TRIM = append_command.c concat_tokens.c linked_tokens.c trim_command.c update_total_chars.c
-PARSE_ERROR = parse_error.c
-REPLACE = replace_envvar.c replace_wildcard.c
-UTILS = parsing_utils.c copy_envp.c
-SIGNALS = signal_handler.c
-BUILTINS = echo.c pwd.c env.c export.c export_utils.c print_export.c exit.c unset.c
-
-SRCS = $(MAIN)\
-$(EXEC)\
-$(SET_IO)\
-$(TRIM)\
-$(PARSE_ERROR)\
-$(REPLACE)\
-$(UTILS)\
-$(SIGNALS)\
-$(BUILTINS)\
-print_error.c
+include makerc/srcs.mk
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 NAME = minishell
-VPATH = . parsing/exec_cmd parsing/set_in_out_put parsing/trim_command parsing/parse_error \
-replace utils signals builtins builtins/export
+VPATH = . execute execute_utils set_in_output token replace utils signals builtins builtins/export parse_error set_in_output_parent
 
 I_DIRS := $(shell find . -type f -name "*.h" -exec dirname {} + | uniq)
 INCLUDE = $(I_DIRS:%=-I%)
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g#,leak -g
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 LDFLAGS = -lreadline
 OBJS_DIR = ./objs
 

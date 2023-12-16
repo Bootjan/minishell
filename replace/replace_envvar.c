@@ -6,133 +6,81 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/30 13:08:07 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/07 13:49:57 by tsteur        ########   odam.nl         */
+/*   Updated: 2023/12/15 17:12:36 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdbool.h>
+#include "minishell.h"
 
-#include "builtins.h"
-#include "libft.h"
-
-static int	strlen_to_endofvar(char *s)
+static char	*replace_ret_val(char *replaced_str, int last_ret, int *i)
 {
-	int	len;
-
-	len = 0;
-	while (s[len] != '\0' && !ft_strchr(EXPORT_TRIM, s[len]))
-		len++;
-	return (len);
-}
-
-static char	*strdup_to_endofvar(char *s)
-{
-	int		size;
+	char	*replacement;
 	char	*out;
 
-	size = strlen_to_endofvar(s) + 1;
-	out = ft_calloc(size, sizeof(char));
-	if (out == NULL)
-		return (NULL);
-	ft_memcpy(out, s, size - 1);
+	replacement = ft_itoa(last_ret);
+	if (replacement == NULL)
+		return (free(replaced_str), NULL);
+	out = ft_strjoin(replaced_str, replacement);
+	free(replaced_str);
+	free(replacement);
+	(*i)++;
 	return (out);
 }
 
-static char *get_envvar(char **envp, char *ptr)
+static char	*replace_vars(char **envp, char *replaced_str, \
+char *curr_el, int *i)
 {
-	char **current_var;
+	char	*tmp;
+	char	*replacement;
+	char	chrstr[2];
 
-	current_var = envp;
-	while (*current_var != NULL)
+	chrstr[1] = '\0';
+	tmp = strdup_to_endofvar(curr_el);
+	if (tmp == NULL)
+		return (free(replaced_str), NULL);
+	if (tmp[0] == '\0')
 	{
-		if (ft_strncmp(*current_var, ptr, ft_strlen(ptr)) == 0 && (*current_var)[ft_strlen(ptr)] == '=')
-			return (&(*current_var)[ft_strlen(ptr) + 1]);
-		current_var++;
+		chrstr[0] = '$';
+		replacement = chrstr;
 	}
-	return (NULL);
+	else
+		replacement = get_envvar(envp, tmp);
+	free(tmp);
+	if (replacement)
+	{
+		tmp = replaced_str;
+		replaced_str = ft_strjoin(replaced_str, replacement);
+		free(tmp);
+	}
+	(*i) += strlen_to_endofvar(curr_el);
+	return (replaced_str);
 }
 
 char	*replace_envvar(char *str, int last_ret, char **envp)
 {
-	char	*replaced_str;
-	char	*tmp;
-	char	*replacement;
-	char	chrstr[2];
 	int		i;
-	bool	in_quotes;
-	bool	in_double_quotes;
+	int		in_quotes;
+	char	*replaced_str;
 
-	chrstr[1] = '\0';
 	in_quotes = false;
-	in_double_quotes = false;
 	replaced_str = ft_strdup("");
 	if (replaced_str == NULL)
 		return (NULL);
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '$' && !in_quotes)
+		if (str[i] == '$' && in_quotes != IN_SQUOTES)
 		{
 			i++;
 			if (str[i] == '?')
-			{
-				replacement = ft_itoa(last_ret);
-				if (replacement == NULL)
-					return (free(replaced_str), NULL);
-				tmp = replaced_str;
-				replaced_str = ft_strjoin(replaced_str, replacement);
-				free(tmp);
-				free(replacement);
-				i += 1;
-			}
+				replaced_str = replace_ret_val(replaced_str, last_ret, &i);
 			else
-			{
-				tmp = strdup_to_endofvar(&str[i]);
-				if (tmp == NULL)
-					return (free(replaced_str), NULL);
-				replacement = get_envvar(envp, tmp);
-				free(tmp);
-				if (replacement != NULL)
-				{
-					tmp = replaced_str;
-					replaced_str = ft_strjoin(replaced_str, replacement);
-					free(tmp);
-				}
-				i += strlen_to_endofvar(&str[i]);
-			}
+				replaced_str = replace_vars(envp, replaced_str, &(str[i]), &i);
 		}
 		else
-		{
-			if (str[i] == '\"' && !in_quotes)
-				in_double_quotes = !in_double_quotes;
-			if (str[i] == '\'' && !in_double_quotes)
-				in_quotes = !in_quotes;
-			chrstr[0] = str[i];
-			tmp = replaced_str;
-			replaced_str = ft_strjoin(replaced_str, chrstr);
-			free(tmp);
-			i++;
-		}
+			replaced_str = replace_char(replaced_str, &in_quotes, str[i++]);
 		if (replaced_str == NULL)
 			return (NULL);
 	}
 	return (replaced_str);
 }
-
-// #include <stdio.h>
-
-
-
-// int main(int argc, char *argv[])
-// {
-// 	char *replaced_str;
-// 	if (argc < 2)
-// 		return (1);
-	
-// 	replaced_str = replace_envvar(argv[1]);
-// 	printf("%s -> %s\n", argv[1], replaced_str);
-// 	if (replaced_str != NULL)
-// 		free(replaced_str);
-// 	return (0);
-// }

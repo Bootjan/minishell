@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/04 23:57:12 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/06 15:52:02 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/16 15:51:30 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	free_2d_array(char ***arr, int state)
 	if (!arr || !*arr)
 		return ;
 	while (state == FREE_2D && (*arr)[i])
-		free((*arr)[i++]);
+	{
+		free((*arr)[i]);
+		(*arr)[i++] = NULL;
+	}
 	free(*arr);
 	*arr = NULL;
 }

@@ -1,44 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 13:23:08 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/08 12:48:54 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   export.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/05 13:23:08 by bschaafs      #+#    #+#                 */
+/*   Updated: 2023/12/15 17:27:52 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "parsing.h"
 #include "minishell.h"
-
-int	is_right_format(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[0] == '=')
-		return (0);
-	while (str[i] && !in_array(str[i], EXPORT_TRIM))
-		i++;
-	if (str[i])
-		return (0);
-	return (1);
-}
-
-void	replace_var(char ***envp, int i, char *new_entry)
-{
-	if ((*envp)[i])
-		free((*envp)[i]);
-	(*envp)[i] = new_entry;
-}
 
 int	replace_in_envp(char ***envp, char *new_entry)
 {
-	int		end;
-	int		i;
+	int	end;
+	int	i;
 
 	end = 0;
 	while (new_entry[end] && new_entry[end] != '=')
@@ -70,7 +47,7 @@ char	**add_to_envp(char ***envp, char *new_entry)
 		len++;
 	new_envp = ft_calloc(len + 2, sizeof(char *));
 	if (!new_envp)
-		return (free_2d_array(envp, FREE_2D), NULL); // maybe not free envp
+		return (*envp);
 	while (i < len)
 	{
 		new_envp[i] = (*envp)[i];
@@ -91,16 +68,15 @@ int	export(int argc, char *argv[], char ***envp)
 		return (print_export(*envp));
 	while (i < argc)
 	{
-		if (unclosed_quotes(argv[i]))
+		if (check_before_equal(argv[i]) == false)
 		{
 			i++;
 			continue ;
 		}
-		clean_av = compute_without_quotes_export(argv[i]);
+		clean_av = ft_strdup(argv[i]);
 		if (!clean_av)
 			return (1);
-		if (is_right_format(clean_av))
-			*envp = add_to_envp(envp, clean_av);
+		*envp = add_to_envp(envp, clean_av);
 		if (!*envp)
 			return (free(clean_av), 1);
 		i++;

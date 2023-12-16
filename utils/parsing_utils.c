@@ -6,24 +6,18 @@
 /*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:31:42 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/05 12:41:20 by tsteur        ########   odam.nl         */
+/*   Updated: 2023/12/15 17:17:27 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _DEFAULT_SOURCE
-#include <string.h>
-
-#include "parsing.h"
+#include "minishell.h"
 
 int	check_status(int status)
 {
 	if (WIFEXITED(status) == true)
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status) == true)
-	{
-		//printf("%s\n", sys_siglist[WIFSIGNALED(status)]);
 		return (WTERMSIG(status));
-	}
 	return (printf("Child exited abnormally.\n"), 1);
 }
 
@@ -37,4 +31,15 @@ void	perror_exit(char *msg, int exit_code)
 	ft_putstr_fd(msg, 2);
 	perror("");
 	_exit(exit_code);
+}
+
+int	in_array(char c, char *set)
+{
+	int	i;
+
+	i = 0;
+	while (set[i])
+		if (set[i++] == c)
+			return (1);
+	return (0);
 }

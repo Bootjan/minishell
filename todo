@@ -1,3 +1,7 @@
-implement unset and cd builtins
-export works with "", but handles edgecase incorrectly
-put here_doc in child process
+<$t cat
+rename compute_without_quotes_unset
+
+wildcards
+tokenize
+// splitten -> quotes niet splitten
+remove quotes

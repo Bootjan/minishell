@@ -1,72 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 14:31:05 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/09 18:47:21 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   export_utils.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/12 15:36:25 by bschaafs      #+#    #+#                 */
+/*   Updated: 2023/12/15 17:36:58 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "parsing.h"
+#include "minishell.h"
 
-static int	add_quotes(char *command, int start, int *total_chars)
+int	check_before_equal(char *str)
 {
-	int		i;
-	char	quote;
+	int	i;
+	int	index;
 
-	i = 1;
-	quote = command[start];
-	while (command[start + i] && command[start + i] != quote)
+	i = 0;
+	index = 0;
+	while (str[index] && str[index] != '=')
+		index++;
+	if (index == (int)ft_strlen(str) || index == 0)
+		return (false);
+	while (i < index)
 	{
-		i++;
-		(*total_chars)++;
+		if (in_array(str[i++], NVALID_IDEN))
+			return (false);
 	}
-	return (i + 1);
+	return (true);
 }
 
-static int	add_text(char *command, int start, int *total_chars)
+int	is_right_format(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (command[start + i] && !in_array(command[start + i], QUOTES))
-	{
+	if (str[0] == '=')
+		return (0);
+	while (str[i] && str[i] != '=')
 		i++;
-		(*total_chars)++;
-	}
-	return (i);
-}
-
-static int	compute_total_chars(char *command)
-{
-	int	i;
-	int	total_chars;
-
-	total_chars = 0;
-	i = 0;
-	while (command[i])
+	while (str[i])
 	{
-		if (command[i] == '\"' || command[i] == '\'')
-			i += add_quotes(command, i, &total_chars);
+		if (in_array(str[i], EXPORT_TRIM))
+			i++;
 		else
-			i += add_text(command, i, &total_chars);
+			break ;
 	}
-	return (total_chars);
+	if (str[i])
+		return (0);
+	return (1);
 }
 
-char	*compute_without_quotes_export(char *command)
+void	replace_var(char ***envp, int i, char *new_entry)
 {
-	int		total_chars;
-	char	*out;
-
-	total_chars = compute_total_chars(command);
-	out = ft_calloc(total_chars + 1, sizeof(char));
-	if (!out)
-		return (NULL);
-	add_chars(&out, command, total_chars);
-	return (out);
+	if ((*envp)[i])
+		free((*envp)[i]);
+	(*envp)[i] = new_entry;
 }
