@@ -1,0 +1,6 @@
+minishell
+.vscode
+objs/
+*/objs/
+infile
+outfile

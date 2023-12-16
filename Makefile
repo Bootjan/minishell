@@ -6,15 +6,16 @@ VPATH = . execute execute_utils set_in_output token replace utils signals builti
 
 I_DIRS := $(shell find . -type f -name "*.h" -exec dirname {} + | uniq)
 INCLUDE = $(I_DIRS:%=-I%)
+INCLUDE += -I/opt/homebrew/opt/readline/include
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 LDFLAGS = -lreadline
 OBJS_DIR = ./objs
 
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DIR = ./libft
-INCLUDE_LIB = -L./libft -lft
+INCLUDE_LIB = -L./libft -lft -L/opt/homebrew/opt/readline/lib -lreadline
 
 RM = rm -f
 

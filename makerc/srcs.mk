@@ -1,5 +1,5 @@
 MAIN = main.c minishell.c
-TOKEN = append_redir_in.c compute_token.c compute_total_chars.c linked_tokens.c find_tokens.c compute_total_chars_utils.c
+TOKEN = append_redir_in.c compute_token.c compute_total_chars.c linked_tokens.c find_tokens.c compute_total_chars_utils.c append_operator.c
 REPLACE = replace_envvar.c replace_envvar_utils.c replace_wildcard.c replace_all.c remove_quotes.c remove_quotes_tokens.c replace_all_utils.c split_command_utils.c
 EXECUTE = execute_builtin.c execute_first_cmd.c execute_middle_cmd.c execute_last_cmd.c execute_one_cmd.c execute_sub_cmd.c executor.c
 EXECUTE_UTILS = compute_path.c execute_builtins_utils.c process_utils.c

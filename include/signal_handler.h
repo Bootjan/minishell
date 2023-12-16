@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   signal_handler.h                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/11/27 13:57:47 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/15 17:25:20 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signal_handler.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/27 13:57:47 by tsteur            #+#    #+#             */
+/*   Updated: 2023/12/16 19:05:22 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # ifndef _POSIX_C_SOURCE
 #  define _POSIX_C_SOURCE 199309L
 # endif
+
+typedef void(*__sighandler_t)(int);
 
 // ### SIGNAL HANDLERS #########################################################
 void	sighandler_interactive(int signum);

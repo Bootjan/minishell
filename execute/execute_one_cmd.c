@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   execute_one_cmd.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/14 01:59:32 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/15 17:19:34 by bschaafs      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   execute_one_cmd.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 01:59:32 by bootjan           #+#    #+#             */
+/*   Updated: 2023/12/16 19:05:55 by bootjan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	execute_one_cmd(t_tokens *cmd, char ***envp)
 	if (!cmd)
 		return (0);
 	first_cmd = compute_first_cmd(cmd);
-	builtin_int = is_builtin(cmd->data);
+	builtin_int = is_builtin(first_cmd);
 	if (builtin_int > 0)
 		return (execute_builtin_parent(cmd, envp, builtin_int));
 	pid = do_fork();
