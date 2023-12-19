@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   compute_path.c                                     :+:    :+:            */
+/*   compute_path.c                                     :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/14 12:03:57 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/15 17:16:48 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/19 16:40:35 by bschaafs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ static char	*compute_right_path(char **paths, char *cmd)
 	char	*poss_path;
 	int		i;
 
-	if (access(cmd, X_OK) == 0)
-		return (cmd);
 	i = 0;
 	while (paths[i])
 	{
@@ -81,6 +79,8 @@ char	*compute_path(char **envp, char *cmd)
 
 	if (!cmd)
 		return (NULL);
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
 	paths = compute_paths(envp);
 	if (!paths)
 		return (NULL);
