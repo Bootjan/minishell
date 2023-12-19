@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/14 01:58:11 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/15 17:16:56 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 11:13:52 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ void	wait_for_childs(int num)
 
 	i = 0;
 	errno = 0;
-	while (i++ < num)
+	while (i < num)
 	{
 		if (wait(NULL) == -1 && errno == EINTR)
 			errno = 0;
+		else
+			i++;
 	}
 }

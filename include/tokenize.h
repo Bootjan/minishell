@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenize.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 22:47:15 by bootjan           #+#    #+#             */
-/*   Updated: 2023/12/16 22:08:24 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   tokenize.h                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/13 22:47:15 by bootjan       #+#    #+#                 */
+/*   Updated: 2023/12/18 12:19:41 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ typedef struct s_tokens
 	struct s_tokens	*next;
 }	t_tokens;
 
-# define OPERATORS "<>|&"
+# define OPERATORS "<>|&()"
 # define TRIM_SET " \t\v\\;"
-# define OPS_TRIM "<>|& \t\v"
+# define OPS_TRIM "<>|&() \t\v\\;"
 # define HERE_DOC 1
 # define REDIR_IN 2
 # define REDIR_APP 3
@@ -31,6 +31,8 @@ typedef struct s_tokens
 # define PIPE 6
 # define AND_OPR 7
 # define OR_OPR 8
+# define PAR_OPEN 9
+# define PAR_CLOSE 10
 
 // ### LINKED TOKENS ###########################################################
 t_tokens	*find_tokens(char *command);
@@ -53,5 +55,12 @@ int			append_redir_out(char *command, t_tokens **tokens, int *error_flag);
 int			append_redir_in(char *command, t_tokens **tokens, int *error_flag);
 int			append_operator(char *command, t_tokens **tokens, int *error_flag);
 int			append_command(char *command, t_tokens **tokens, int *error_flag);
+
+// ### RETURN OPERATOR #########################################################
+char		*return_pipe(int *error_flag);
+char		*return_and(int *error_flag);
+char		*return_or(int *error_flag);
+char		*return_par_open(int *error_flag);
+char		*return_par_close(int *error_flag);
 
 #endif

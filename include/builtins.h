@@ -6,15 +6,13 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/04 14:15:09 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/15 17:38:29 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/19 14:27:19 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# define EXPORT_TRIM "abcdefghijklmnopqrstuvwxyz\
-ABCDEFGHIJKLMOPQRSTUVWXYZ0123456789_= "
 # define NVALID_IDEN " \t\r\v\n.,/\\:;<>{}[]-%%*+"
 # define QUOTES "\"\'"
 

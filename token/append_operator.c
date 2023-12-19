@@ -1,46 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   append_operator.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/16 22:04:16 by bootjan           #+#    #+#             */
-/*   Updated: 2023/12/16 22:08:05 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   append_operator.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/16 22:04:16 by bootjan       #+#    #+#                 */
+/*   Updated: 2023/12/18 12:24:05 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*return_pipe(int *error_flag)
-{
-	char	*out;
-
-	out = ft_strdup("|");
-	if (!out)
-		return (*error_flag = 1, NULL);
-	return (out);
-}
-
-static char	*return_and(int *error_flag)
-{
-	char	*out;
-
-	out = ft_strdup("&&");
-	if (!out)
-		return (*error_flag = 1, NULL);
-	return (out);
-}
-
-static char	*return_or(int *error_flag)
-{
-	char	*out;
-
-	out = ft_strdup("||");
-	if (!out)
-		return (*error_flag = 1, NULL);
-	return (out);
-}
 
 static char	*compute_data(char *command, int *token, int *skip, int *error_flag)
 {
@@ -53,6 +23,10 @@ static char	*compute_data(char *command, int *token, int *skip, int *error_flag)
 		return (*token = AND_OPR, return_and(error_flag));
 	else if (command[0] == '|' | command[1] == '|')
 		return (*token = OR_OPR, return_or(error_flag));
+	else if (command[0] == '(')
+		return (*skip = 1, *token = PAR_OPEN, return_par_open(error_flag));
+	else if (command[0] == ')')
+		return (*skip = 1, *token = PAR_CLOSE, return_par_close(error_flag));
 	else
 		*skip = 1;
 	return (data);

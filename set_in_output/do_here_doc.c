@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   do_here_doc.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/14 11:52:55 by bootjan           #+#    #+#             */
-/*   Updated: 2023/12/16 19:12:22 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   do_here_doc.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/14 11:52:55 by bootjan       #+#    #+#                 */
+/*   Updated: 2023/12/18 10:57:08 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ static char	*get_input(char *limiter, int lim_len)
 	{
 		line = readline("> ");
 		if (!line)
-			return (ft_putendl_fd("Readline failed.", STDERR_FILENO), \
-			free(input), NULL);
+			return (free(line), input);
 		else
 		{
 			if (ft_strncmp(line, limiter, lim_len) == 0

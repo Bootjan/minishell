@@ -6,11 +6,33 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/04 23:11:53 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/15 17:19:41 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 16:22:28 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	unclosed_parenthesis(char *command)
+{
+	int		i;
+	bool	open;
+
+	i = 0;
+	open = false;
+	while (command[i])
+	{
+		if (command[i] == '(' && open == true)
+			return (1);
+		if (command[i] == '(')
+			open = true;
+		if (command[i] == ')' && open == false)
+			return (1);
+		if (command[i] == ')')
+			open = false;
+		i++;
+	}
+	return (open);
+}
 
 int	unclosed_quotes(char *command)
 {
@@ -41,6 +63,8 @@ int	parse_error(char *command)
 	if (!command)
 		return (0);
 	if (unclosed_quotes(command))
-		return (1);
+		return (UNCL_QUOTES);
+	if (unclosed_parenthesis(command))
+		return (UNCL_PAR);
 	return (0);
 }

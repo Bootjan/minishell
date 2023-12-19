@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/27 13:35:08 by tsteur            #+#    #+#             */
-/*   Updated: 2023/12/16 20:47:14 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/27 13:35:08 by tsteur        #+#    #+#                 */
+/*   Updated: 2023/12/18 16:34:47 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 int	execute_command(char *command, char ***envp)
 {
-	static int	last_ret;
+	int			parse_code;
+	static int	last_ret = 0;
 	t_tokens	*tokens;
 
-	last_ret = 0;
 	set_sighandler(sighandler_running);
-	if (parse_error(command))
-		return (ft_putendl_fd("Parse error", 2), 1);
+	parse_code = parse_error(command);
+	if (parse_code != 0)
+		return (last_ret = 1, print_parse_error(parse_code), 1);
 	tokens = find_tokens(command);
 	tokens = replace_wildcard_envvar(tokens, last_ret, *envp);
 	tokens = remove_quotes_tokens(tokens);

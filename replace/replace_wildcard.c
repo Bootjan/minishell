@@ -6,106 +6,121 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 11:24:57 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/15 17:12:39 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 13:48:20 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_ent(DIR *dir, struct dirent *ent, char **list)
+static void	update_ent(DIR *dir, char **list, char *prefix, char *suffix)
 {
-	char	*tmp;
+	char			*tmp;
+	struct dirent	*ent;
 
-	tmp = NULL;
+	ent = readdir(dir);
 	while (ent != NULL && *list != NULL)
 	{
-		if (ent->d_name[0] != '.')
+		if ((ent->d_name[0] != '.' || prefix[0] == '.') \
+			&& *list != NULL && \
+			ft_strncmp(prefix, ent->d_name, ft_strlen(prefix)) == 0 && \
+			ft_strlen(ent->d_name) >= ft_strlen(suffix) && \
+			ft_strncmp(suffix, ent->d_name + ft_strlen(ent->d_name) \
+					- ft_strlen(suffix), ft_strlen(suffix) + 1) == 0)
 		{
+			if (ft_strlen(*list) != 0)
+			{
+				tmp = *list;
+				*list = ft_strjoin(*list, " ");
+				free(tmp);
+			}
 			tmp = *list;
 			*list = ft_strjoin(*list, ent->d_name);
 			free(tmp);
 		}
 		ent = readdir(dir);
-		if (ent != NULL && ent->d_name[0] != '.' && *list != NULL
-			&& (*list)[0] != '\0')
-		{
-			tmp = *list;
-			*list = ft_strjoin(*list, " ");
-			free(tmp);
-		}
 	}
 }
 
-static char	*list_working_dir(void)
+static char	*list_working_dir(char *prefix, char *suffix)
 {
 	DIR				*dir;
-	struct dirent	*ent;
 	char			*list;
 
 	dir = opendir(WORKING_DIR);
 	if (dir == NULL)
 		return (NULL);
 	list = ft_strdup("");
-	ent = readdir(dir);
-	update_ent(dir, ent, &list);
+	update_ent(dir, &list, prefix, suffix);
 	closedir(dir);
 	return (list);
 }
 
-static char	*replace_ast(char *replaced_str)
+char	*find_asterisk(char *str)
 {
-	char	*out;
-	char	*dir_list;
+	int		i;
+	int		in_quotes;
+	char	*asterisk;
 
-	dir_list = list_working_dir();
-	if (dir_list == NULL)
-		return (free(replaced_str), NULL);
-	out = ft_strjoin(replaced_str, dir_list);
-	free(replaced_str);
-	free(dir_list);
-	return (out);
+	in_quotes = false;
+	asterisk = NULL;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\"' && in_quotes == IN_DQUOTES)
+			in_quotes = false;
+		else if (str[i] == '\"' && in_quotes == false)
+			in_quotes = IN_DQUOTES;
+		else if (str[i] == '\'' && in_quotes == IN_SQUOTES)
+			in_quotes = false;
+		else if (str[i] == '\'' && in_quotes == false)
+			in_quotes = IN_SQUOTES;
+		if (str[i] == '*' && !in_quotes && asterisk == NULL)
+			asterisk = str + i;
+		else if (str[i] == '*' && !in_quotes && asterisk != NULL)
+			return (NULL);
+		i++;
+	}
+	return (asterisk);
 }
 
-char	*replace_char(char *replaced_str, int *in_quotes, char curr_el)
+void	get_fixes(char *str, char *asterisk, char **prefix, char **suffix)
 {
-	char	*out;
-	char	chrstr[2];
+	char	*tmp;
 
-	chrstr[1] = '\0';
-	if (curr_el == '\"' && *in_quotes == IN_DQUOTES)
-		*in_quotes = false;
-	else if (curr_el == '\"' && *in_quotes == false)
-		*in_quotes = IN_DQUOTES;
-	else if (curr_el == '\'' && *in_quotes == IN_SQUOTES)
-		*in_quotes = false;
-	else if (curr_el == '\'' && *in_quotes == false)
-		*in_quotes = IN_SQUOTES;
-	chrstr[0] = curr_el;
-	out = ft_strjoin(replaced_str, chrstr);
-	free(replaced_str);
-	return (out);
+	*prefix = str;
+	*asterisk = '\0';
+	*suffix = asterisk + 1;
+	tmp = ft_strdup(*prefix);
+	if (tmp == NULL)
+		*prefix = NULL;
+	else
+		*prefix = remove_quotes(tmp);
+	tmp = ft_strdup(*suffix);
+	if (tmp == NULL)
+		suffix = NULL;
+	else
+		*suffix = remove_quotes(tmp);
 }
 
 char	*replace_wildcard(char *str)
 {
-	int		i;
-	int		in_quotes;
-	char	*replaced_str;
+	char	*prefix;
+	char	*suffix;
+	char	*asterisk;
+	char	*list;
 
-	in_quotes = false;
-	replaced_str = ft_strdup("");
-	if (replaced_str == NULL)
+	asterisk = find_asterisk(str);
+	if (asterisk == NULL)
+		return (strdup(str));
+	get_fixes(str, asterisk, &prefix, &suffix);
+	if (prefix == NULL && suffix == NULL)
 		return (NULL);
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '*' && !in_quotes)
-			replaced_str = replace_ast(replaced_str);
-		else
-			replaced_str = replace_char(replaced_str, &in_quotes, str[i]);
-		i++;
-		if (replaced_str == NULL)
-			return (NULL);
-	}
-	return (replaced_str);
+	if (prefix == NULL)
+		return (free(suffix), NULL);
+	if (suffix == NULL)
+		return (free(prefix), NULL);
+	list = list_working_dir(prefix, suffix);
+	free(prefix);
+	free(suffix);
+	return (list);
 }

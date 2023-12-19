@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 15:19:04 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/16 15:46:52 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/19 14:27:23 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define REPLACE_H
 
 # define EXPORT_TRIM "abcdefghijklmnopqrstuvwxyz\
-ABCDEFGHIJKLMOPQRSTUVWXYZ0123456789_= "
+ABCDEFGHIJKLMOPQRSTUVWXYZ0123456789_="
 
 # define IN_SQUOTES 1
 # define IN_DQUOTES 2

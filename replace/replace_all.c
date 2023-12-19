@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   replace_all.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 16:51:15 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/16 21:43:42 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   replace_all.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bootjan <bootjan@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/12 16:51:15 by bschaafs      #+#    #+#                 */
+/*   Updated: 2023/12/18 10:29:01 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,12 @@ int	arr_len(char **arr)
 	return (len);
 }
 
-static char	**empty_split_str(char *command)
-{
-	char	**out;
-
-	out = ft_calloc(2, sizeof(char *));
-	if (!out)
-		return (NULL);
-	out[0] = ft_strdup(command);
-	if (!out[0])
-		return (free(out), NULL);
-	return (out);
-}
-
 static char	**split_command(char *command)
 {
 	int		total_words;
 	char	**out;
 
 	total_words = compute_total_words(command);
-	if (total_words <= 0)
-		return (empty_split_str(command));
 	out = ft_calloc(total_words + 1, sizeof(char *));
 	if (!out)
 		return (NULL);

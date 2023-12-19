@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bootjan <bootjan@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/27 13:07:47 by bschaafs          #+#    #+#             */
-/*   Updated: 2023/12/16 19:04:49 by bootjan          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bschaafs <bschaafs@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/11/27 13:07:47 by bschaafs      #+#    #+#                 */
+/*   Updated: 2023/12/15 17:31:30 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@
 # include <termios.h>
 # include <stddef.h>
 # include <string.h>
-// # include <linux/limits.h>
-# include <limits.h>
+# include <linux/limits.h>
 
 # include "libft.h"
 # include "ft_printf.h"

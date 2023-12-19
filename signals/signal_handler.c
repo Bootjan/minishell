@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/27 13:57:09 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/15 17:20:50 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 12:48:36 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	sighandler_in_heredoc(int signum)
 	}
 	else if (signum == SIGQUIT)
 	{
+		rl_on_new_line();
+		rl_redisplay();
 	}
 	g_lastsig = signum;
 }
 
 void	set_sighandler(__sighandler_t sighandler)
 {
-	struct sigaction	sa;
-
 	if (sighandler == NULL)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -63,9 +63,6 @@ void	set_sighandler(__sighandler_t sighandler)
 		return ;
 	}
 	g_lastsig = 0;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sighandler;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	signal(SIGINT, sighandler);
+	signal(SIGQUIT, sighandler);
 }

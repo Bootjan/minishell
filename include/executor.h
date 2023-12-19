@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/14 14:32:28 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/15 17:27:22 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 16:22:15 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ typedef struct s_builtin_fds
 # define UNSET_STR "unset"
 # define EXIT_STR "exit"
 
+# define UNCL_QUOTES 1
+# define UNCL_PAR 2
+
 // ### UTILS ###################################################################
+t_tokens		*compute_sub_cmd(t_tokens *tokens, int *len);
+t_tokens		*compute_next_cmd(t_tokens *tokens, int len);
 int				parse_error(char *command);
 int				unclosed_quotes(char *command);
 t_tokens		*update_command(t_tokens *tokens);
@@ -62,6 +67,7 @@ void			free_2d_array(char ***arr, int mode);
 void			print_error_cmd(char *cmd);
 void			print_error_open(char *file);
 void			perror_exit(char *msg, int exit_code);
+void			print_parse_error(int code);
 
 // ### EXECUTE BUILTIN #########################################################
 int				is_builtin(char *cmd);
@@ -95,6 +101,7 @@ char			*compute_path(char **envp, char *cmd);
 // ### EXECUTORS ###############################################################
 int				executor(t_tokens *tokens, char ***envp);
 int				execute_sub_cmd(t_tokens *cmd, char ***envp);
+int				execute_priorities(t_tokens *tokens, char ***envp);
 int				execute_one_cmd(t_tokens *cmd, char ***envp);
 t_tokens		*execute_first_cmd(t_tokens *cmd, char **envp, \
 t_pipes *pipes, int *pid);

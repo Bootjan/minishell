@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/14 01:36:58 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/15 17:19:27 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 16:06:20 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ int	execute_pipes(t_tokens *cmd, char **envp, int amount_of_pipes)
 {
 	int		pid;
 	int		status;
+	int		child_count;
 	t_pipes	pipes;
 
 	status = 0;
+	child_count = amount_of_pipes + 1;
 	ft_bzero(&pipes, sizeof(t_pipes));
 	cmd = execute_first_cmd(cmd, envp, &pipes, &pid);
 	while (amount_of_pipes-- > 1 && pid > 0)
@@ -61,7 +63,7 @@ int	execute_pipes(t_tokens *cmd, char **envp, int amount_of_pipes)
 		while (waitpid(pid, &status, 0) == -1 && errno == EINTR)
 			errno = 0;
 	}
-	wait_for_childs(amount_of_pipes);
+	wait_for_childs(child_count - 1);
 	close_pipes(pipes);
 	return (check_status(status));
 }

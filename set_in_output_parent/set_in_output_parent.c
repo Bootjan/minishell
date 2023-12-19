@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/14 15:35:37 by bschaafs      #+#    #+#                 */
-/*   Updated: 2023/12/15 17:14:23 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 10:46:08 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,5 @@ t_builtin_fds *fds, char **here_doc)
 	}
 	if (error_flag != 0 || !cmds_char)
 		return (close_free_all(*fds, here_doc, cmds_char), NULL);
-	return (cmds_char);
+	return (ft_free_str(here_doc), cmds_char);
 }

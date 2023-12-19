@@ -6,7 +6,7 @@
 /*   By: tsteur <tsteur@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/11/30 13:08:07 by tsteur        #+#    #+#                 */
-/*   Updated: 2023/12/15 17:12:36 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 12:09:01 by tsteur        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,26 @@ char *curr_el, int *i)
 	}
 	(*i) += strlen_to_endofvar(curr_el);
 	return (replaced_str);
+}
+
+char	*replace_char(char *replaced_str, int *in_quotes, char curr_el)
+{
+	char	*out;
+	char	chrstr[2];
+
+	chrstr[1] = '\0';
+	if (curr_el == '\"' && *in_quotes == IN_DQUOTES)
+		*in_quotes = false;
+	else if (curr_el == '\"' && *in_quotes == false)
+		*in_quotes = IN_DQUOTES;
+	else if (curr_el == '\'' && *in_quotes == IN_SQUOTES)
+		*in_quotes = false;
+	else if (curr_el == '\'' && *in_quotes == false)
+		*in_quotes = IN_SQUOTES;
+	chrstr[0] = curr_el;
+	out = ft_strjoin(replaced_str, chrstr);
+	free(replaced_str);
+	return (out);
 }
 
 char	*replace_envvar(char *str, int last_ret, char **envp)

@@ -6,7 +6,7 @@
 /*   By: bootjan <bootjan@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/14 17:45:41 by bootjan       #+#    #+#                 */
-/*   Updated: 2023/12/16 14:57:05 by bschaafs      ########   odam.nl         */
+/*   Updated: 2023/12/18 13:38:44 by bschaafs      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	*remove_quotes(char *command)
 	int		total_chars;
 	char	*out;
 
+	if (!command)
+		return (ft_strdup(""));
 	total_chars = compute_total_for_str(command);
 	out = ft_calloc(total_chars + 1, sizeof(char));
 	if (!out)
